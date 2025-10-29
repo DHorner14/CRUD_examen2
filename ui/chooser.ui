@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>431</width>
+    <height>354</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Selector de Menú</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/* ===== ESTILOS BIEN PERRONES CON FONDOS OSCUROS ===== */
+
+/* Estilo principal ultra oscuro */
+QMainWindow {
+    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 1,
+                               stop: 0 #0f0f1a, stop: 1 #1a1a2e);
+    color: #ffffff;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+QWidget {
+    background: transparent;
+}
+
+/* Botones con contraste brutal */
+QPushButton {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #6c5ce7, stop: 1 #5b4cd8);
+    border: 2px solid #7e6df0;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    font-size: 12px;
+    min-width: 80px;
+}
+
+QPushButton:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #7e6df0, stop: 1 #6c5ce7);
+    border: 2px solid #8d7df5;
+    transform: translateY(-1px);
+}
+
+QPushButton:pressed {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #5b4cd8, stop: 1 #4a3bc7);
+    transform: translateY(1px);
+}
+
+/* Botones de peligro */
+QPushButton[danger=&quot;true&quot;] {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #e74c3c, stop: 1 #c0392b);
+    border: 2px solid #e74c3c;
+}
+
+QPushButton[danger=&quot;true&quot;]:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #ff6b6b, stop: 1 #e74c3c);
+}
+
+/* Line edits con fondo oscuro intenso */
+QLineEdit {
+    background: #121212;
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #ffffff;
+    font-size: 12px;
+    selection-background-color: #6c5ce7;
+}
+
+QLineEdit:focus {
+    border: 2px solid #6c5ce7;
+    background: #1a1a1a;
+}
+
+QLineEdit:disabled {
+    background: #1a1a1a;
+    color: #666666;
+    border: 2px solid #333333;
+}
+
+/* Labels con buen contraste */
+QLabel {
+    color: #e0e0e0;
+    font-size: 12px;
+    background: transparent;
+}
+
+QLabel#titulo {
+    font-size: 16px;
+    font-weight: bold;
+    color: #6c5ce7;
+    background: transparent;
+}
+
+QLabel#subtitulo {
+    font-size: 14px;
+    color: #b8b8b8;
+    background: transparent;
+}
+
+/* Combo boxes ultra oscuros */
+QComboBox {
+    background: #121212;
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #ffffff;
+    min-width: 100px;
+}
+
+QComboBox::drop-down {
+    border: none;
+    width: 20px;
+}
+
+QComboBox::down-arrow {
+    image: none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #6c5ce7;
+    width: 0px;
+    height: 0px;
+}
+
+QComboBox QAbstractItemView {
+    background: #121212;
+    border: 1px solid #6c5ce7;
+    color: #ffffff;
+    selection-background-color: #6c5ce7;
+}
+
+QComboBox:disabled {
+    background: #1a1a1a;
+    color: #666666;
+    border: 2px solid #333333;
+}
+
+/* Checkboxes y radio buttons */
+QCheckBox, QRadioButton {
+    color: #e0e0e0;
+    spacing: 8px;
+    background: transparent;
+}
+
+QCheckBox::indicator, QRadioButton::indicator {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2a2a3a;
+    border-radius: 3px;
+    background: #121212;
+}
+
+QCheckBox::indicator:checked {
+    background: #6c5ce7;
+    border: 2px solid #6c5ce7;
+}
+
+QCheckBox::indicator:disabled, QRadioButton::indicator:disabled {
+    background: #1a1a1a;
+    border: 2px solid #333333;
+}
+
+QRadioButton::indicator {
+    border-radius: 8px;
+}
+
+QRadioButton::indicator:checked {
+    background: #6c5ce7;
+    border: 2px solid #6c5ce7;
+}
+
+/* Progress bars oscuras */
+QProgressBar {
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    background: #121212;
+    text-align: center;
+    color: white;
+}
+
+QProgressBar::chunk {
+    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,
+                               stop: 0 #6c5ce7, stop: 1 #8d7df5);
+    border-radius: 4px;
+}
+
+/* Group boxes con fondo semitransparente */
+QGroupBox {
+    border: 2px solid #2a2a3a;
+    border-radius: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    color: #6c5ce7;
+    font-weight: bold;
+    background: rgba(18, 18, 24, 0.8);
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 8px 0 8px;
+    background: transparent;
+}
+
+/* Tab widgets oscuros */
+QTabWidget::pane {
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    background: #121212;
+}
+
+QTabWidget::tab-bar {
+    alignment: center;
+}
+
+QTabBar::tab {
+    background: #121212;
+    border: 2px solid #2a2a3a;
+    border-bottom: none;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    padding: 8px 16px;
+    color: #b8b8b8;
+    margin-right: 2px;
+}
+
+QTabBar::tab:selected {
+    background: #6c5ce7;
+    border: 2px solid #6c5ce7;
+    border-bottom: none;
+    color: #ffffff;
+}
+
+QTabBar::tab:hover:!selected {
+    background: #2a2a3a;
+    color: #ffffff;
+}
+
+/* Scrollbars ultra oscuras */
+QScrollBar:vertical {
+    background: #121212;
+    width: 12px;
+    margin: 0px;
+    border: none;
+}
+
+QScrollBar::handle:vertical {
+    background: #6c5ce7;
+    border-radius: 6px;
+    min-height: 20px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background: #7e6df0;
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    border: none;
+    background: none;
+}
+
+QScrollBar:horizontal {
+    background: #121212;
+    height: 12px;
+    margin: 0px;
+    border: none;
+}
+
+QScrollBar::handle:horizontal {
+    background: #6c5ce7;
+    border-radius: 6px;
+    min-width: 20px;
+}
+
+/* Menús y toolbars oscuros */
+QMenuBar {
+    background: #121212;
+    color: #e0e0e0;
+    border-bottom: 1px solid #2a2a3a;
+}
+
+QMenuBar::item:selected {
+    background: #6c5ce7;
+    color: #ffffff;
+}
+
+QMenu {
+    background: #121212;
+    color: #e0e0e0;
+    border: 1px solid #2a2a3a;
+}
+
+QMenu::item:selected {
+    background: #6c5ce7;
+    color: #ffffff;
+}
+
+QToolBar {
+    background: #121212;
+    border: none;
+    border-bottom: 1px solid #2a2a3a;
+    spacing: 3px;
+}
+
+/* Tabla con fondo oscuro */
+QTableView {
+    background: #121212;
+    border: 1px solid #2a2a3a;
+    gridline-color: #2a2a3a;
+    color: #e0e0e0;
+    selection-background-color: #6c5ce7;
+    alternate-background-color: #1a1a1a;
+}
+
+QHeaderView::section {
+    background: #2a2a3a;
+    color: #e0e0e0;
+    padding: 6px;
+    border: 1px solid #121212;
+    font-weight: bold;
+}
+
+QTableView::item:hover {
+    background: #2a2a3a;
+}
+
+/* List widgets oscuros */
+QListWidget {
+    background: #121212;
+    border: 1px solid #2a2a3a;
+    color: #e0e0e0;
+    outline: none;
+}
+
+QListWidget::item {
+    padding: 6px;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+QListWidget::item:selected {
+    background: #6c5ce7;
+    color: #ffffff;
+}
+
+QListWidget::item:hover:!selected {
+    background: #2a2a3a;
+}
+
+/* Tree widgets */
+QTreeWidget {
+    background: #121212;
+    border: 1px solid #2a2a3a;
+    color: #e0e0e0;
+}
+
+QTreeWidget::item {
+    padding: 4px;
+}
+
+QTreeWidget::item:selected {
+    background: #6c5ce7;
+    color: #ffffff;
+}
+
+QTreeWidget::item:hover:!selected {
+    background: #2a2a3a;
+}
+
+/* Spin boxes y doubles */
+QSpinBox, QDoubleSpinBox {
+    background: #121212;
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    padding: 6px 12px;
+    color: #e0e0e0;
+    selection-background-color: #6c5ce7;
+}
+
+QSpinBox:focus, QDoubleSpinBox:focus {
+    border: 2px solid #6c5ce7;
+    background: #1a1a1a;
+}
+
+/* Sliders oscuros */
+QSlider::groove:horizontal {
+    background: #2a2a3a;
+    height: 4px;
+    border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+    background: #6c5ce7;
+    border: 2px solid #5b4cd8;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    margin: -6px 0;
+}
+
+QSlider::handle:horizontal:hover {
+    background: #7e6df0;
+    border: 2px solid #6c5ce7;
+}
+
+/* Efectos especiales para botones importantes */
+QPushButton.important {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #00b894, stop: 1 #00a085);
+    border: 2px solid #00b894;
+}
+
+QPushButton.important:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                               stop: 0 #00cec9, stop: 1 #00b894);
+}
+
+/* Text edits oscuros */
+QTextEdit {
+    background: #121212;
+    border: 2px solid #2a2a3a;
+    border-radius: 6px;
+    padding: 6px;
+    color: #e0e0e0;
+    selection-background-color: #6c5ce7;
+}
+
+QTextEdit:focus {
+    border: 2px solid #6c5ce7;
+    background: #1a1a1a;
+}
+
+/* Frames con variantes de oscuro */
+QFrame {
+    background: transparent;
+}
+
+QFrame[frameShape=&quot;4&quot;] { /* HLine */
+    background: #2a2a3a;
+    max-height: 1px;
+}
+
+QFrame[frameShape=&quot;5&quot;] { /* VLine */
+    background: #2a2a3a;
+    max-width: 1px;
+}</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QFrame" name="frame_2">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>45</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>261</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="boton_salir">
+         <property name="minimumSize">
+          <size>
+           <width>116</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Salir</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../resources/imagenes/salir.png</normaloff>../resources/imagenes/salir.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="4" column="1">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label">
+         <property name="maximumSize">
+          <size>
+           <width>500</width>
+           <height>500</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Escoja un menú</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>126</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="0">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>126</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="btnMenuA">
+         <property name="text">
+          <string>Empleados</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>125</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="0">
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>126</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="2">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>125</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QPushButton" name="btnMenuB">
+         <property name="text">
+          <string>Productos</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2">
+        <spacer name="horizontalSpacer_7">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>125</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
