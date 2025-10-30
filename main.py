@@ -39,17 +39,37 @@ class LoginDialog(QtWidgets.QDialog):
             self.editUser.setFocus()
             return
 
-        usuario_valido = "admin"
-        contraseña_valida = "1234"
-        
-        if usuario == usuario_valido and contraseña == contraseña_valida:
+        # VERIFICACIÓN CON BASE DE DATOS - SOLO ESTO CAMBIA
+        if self.verificar_en_bd(usuario, contraseña):
             self.accept()
         else:
             QMessageBox.warning(self, "Error", "Usuario o contraseña incorrectos.")
             self.editPass.clear()
             self.editUser.selectAll()
             self.editUser.setFocus()
-
+    
+    def verificar_en_bd(self, usuario, contraseña):
+        """Verifica las credenciales en la base de datos"""
+        try:
+            # Importa tu conexión existente
+            from modelo.conexionbd import ConexionBD  # Ajusta el import
+            
+            conn = ConexionBD()  # Usa tu función existente
+            cursor = conn.cursor()
+            
+            # Llamar al procedimiento almacenado
+            cursor.execute("EXEC sp_ValidarUsuario ?, ?", usuario, contraseña)
+            result = cursor.fetchone()
+            
+            cursor.close()
+            conn.close()
+            
+            return bool(result[0]) if result else False
+            
+        except Exception as e:
+            print(f"Error al verificar credenciales: {e}")
+            # Fallback a verificación local si hay error de BD
+            return usuario == "admin" and contraseña == "1234"
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()

@@ -12,10 +12,8 @@ class EmpleadoDAO:
         sp="exec [dbo].[sp_listar_empleados]"
         cursor.execute(sp)
         filas=cursor.fetchall()
-        for fila in filas:
-            print (fila)
-        
         self.bd.CerrarConexion()
+        return filas
     
     def insertarEmpleado(self):
         self.bd.establecerConexionBD()
@@ -32,16 +30,26 @@ class EmpleadoDAO:
         param=(self.empleado.id_empleado,self.empleado.Apellido,self.empleado.puesto,self.empleado.edad,self.empleado.salario)
         cursor=self.bd.conexion.cursor()
         cursor.execute(sp,param)
-        cursor.commit()
+        self.bd.conexion.commit()
         self.bd.CerrarConexion()
     
     def eliminarEmpleado(self):
         self.bd.establecerConexionBD()
-        sp="exec [dbo].[sp_eliminar_empleado] @id_empleado"
+        sp="exec [dbo].[sp_eliminar_empleado] @id_empleado=?"
         param=(self.empleado.id_empleado)
         cursor=self.bd.conexion.cursor()
         cursor.execute(sp,param)
-        cursor.commit()
+        self.bd.conexion.commit()
         self.bd.CerrarConexion()
+        
+    def buscarEmpleado(self):
+        self.bd.establecerConexionBD()
+        sp = "exec [dbo].[sp_buscar_empleado] @id_empleado=?"
+        params = (self.empleado.id_empleado,)
+        cursor = self.bd.conexion.cursor()
+        cursor.execute(sp, params)
+        fila = cursor.fetchone()
+        self.bd.CerrarConexion()
+        return fila
         
         

@@ -88,50 +88,40 @@ class Load_ui_productos(QtWidgets.QMainWindow):
     def buscar_producto_buscar(self):
         self.productodao.producto.clave = self.sku_buscar.text()
         datos = self.productodao.buscarProducto()
-
-        # normalizar a una sola fila
-        if isinstance(datos, list) and datos:
-            row = datos[0]
-        elif isinstance(datos, tuple):
-            row = datos
+        
+        # Only proceed if we have valid data
+        if datos and len(datos) > 0:
+            # Get first row if it's a list of rows
+            row = datos[0] if isinstance(datos, list) else datos
+            
+            # Set the text fields
+            self.descripcion_buscar.setText(str(row[2]))
+            self.existencia_buscar.setText(str(row[3]))
+            self.precio_buscar.setText(str(row[4]))
         else:
-            row = None
-
-        # limpiar si no hay resultado
-        if not row:
+            # Clear fields if no data found
             self.descripcion_buscar.setText("")
             self.existencia_buscar.setText("")
             self.precio_buscar.setText("")
-            return
-
-        # asignar campos de forma segura
-        self.descripcion_buscar.setText(str(row[2]))
-        self.existencia_buscar.setText(str(row[3]))
-        self.precio_buscar.setText(str(row[4]))
     
     def buscar_producto_eliminar(self):
-        self.productodao.producto.clave=self.sku_eliminar.text()
-        datos=self.productodao.buscarProducto()
+        self.productodao.producto.clave = self.sku_eliminar.text()
+        datos = self.productodao.buscarProducto()
         
-        # normalizar a una sola fila
-        if isinstance(datos, list) and datos:
-            row = datos[0]
-        elif isinstance(datos, tuple):
-            row = datos
+        # Only proceed if we have valid data
+        if datos and len(datos) > 0:
+            # Get first row if it's a list of rows
+            row = datos[0] if isinstance(datos, list) else datos
+            
+            # Set the text fields
+            self.descripcion_eliminar.setText(str(row[2]))
+            self.existencia_eliminar.setText(str(row[3]))
+            self.precio_eliminar.setText(str(row[4]))
         else:
-            row = None
-
-        # limpiar si no hay resultado
-        if not row:
+            # Clear fields if no data found
             self.descripcion_eliminar.setText("")
             self.existencia_eliminar.setText("")
             self.precio_eliminar.setText("")
-            return
-
-        # asignar campos de forma segura
-        self.descripcion_eliminar.setText(str(row[2]))
-        self.existencia_eliminar.setText(str(row[3]))
-        self.precio_eliminar.setText(str(row[4]))
     
     def limpiar_producto(self):
         self.sku_buscar.setText("")
@@ -147,7 +137,7 @@ class Load_ui_productos(QtWidgets.QMainWindow):
         if isinstance(datos, list) and datos:
             row = datos[0]
         elif isinstance(datos, tuple):
-            ow = datos
+            row = datos
         else:
             row = None
 
@@ -180,8 +170,7 @@ class Load_ui_productos(QtWidgets.QMainWindow):
             self.showMaximized()
         else:
             self.showNormal()
-#7.- Mover menú
-#7.- Mover menú
+
     def mover_menu(self):
         if True:			
             width = self.frame_lateral.width()

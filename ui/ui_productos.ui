@@ -1074,12 +1074,12 @@ QTableWidget QScrollBar::sub-line:vertical {
                 </column>
                 <column>
                  <property name="text">
-                  <string>New Column</string>
+                  <string>Descripción</string>
                  </property>
                 </column>
                 <column>
                  <property name="text">
-                  <string>Descripción </string>
+                  <string>Existencia </string>
                  </property>
                 </column>
                 <column>

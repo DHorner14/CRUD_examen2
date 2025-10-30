@@ -56,7 +56,7 @@ class Load_ui_empleado(QtWidgets.QMainWindow):
 
     def guardar_empleado(self):
         self.empleadodao.empleado.id_empleado = self.sku_agregar.text()
-        self.empleadodao.empleado.apellido = self.descripcion_agregar.text()
+        self.empleadodao.empleado.Apellido = self.descripcion_agregar.text()
         self.empleadodao.empleado.puesto = self.existencia_agregar.text()
         self.empleadodao.empleado.edad = self.precio_agregar.text()
         self.empleadodao.empleado.salario = self.lineEdit.text()  # Campo adicional para salario
@@ -65,6 +65,7 @@ class Load_ui_empleado(QtWidgets.QMainWindow):
     
     def actualizar_tabla(self):
         datos = self.empleadodao.listarEmpleados()
+        print(datos)
         self.tabla_consulta.setRowCount(len(datos))
         i = 0
         for fila in datos:
@@ -76,11 +77,11 @@ class Load_ui_empleado(QtWidgets.QMainWindow):
             i += 1
     
     def actualizar_empleado(self):
-        self.empleadodao.empleado.id_empleado = self.sku_actualizar.text()
-        self.empleadodao.empleado.apellido = self.descripcion_actualizar.text()
+        self.empleadodao.empleado.id_empleado =int( self.sku_actualizar.text())
+        self.empleadodao.empleado.Apellido = self.descripcion_actualizar.text()
         self.empleadodao.empleado.puesto = self.existencia_actualizar.text()
-        self.empleadodao.empleado.edad = self.precio_actualizar.text()
-        self.empleadodao.empleado.salario = self.precio_actualizar_2.text()
+        self.empleadodao.empleado.edad = int(self.precio_actualizar.text())
+        self.empleadodao.empleado.salario = float(self.precio_actualizar_2.text())
         self.empleadodao.actualizarEmpleado()    
 
     def eliminar_empleado(self):
@@ -91,53 +92,20 @@ class Load_ui_empleado(QtWidgets.QMainWindow):
         self.empleadodao.empleado.id_empleado = self.sku_buscar.text()
         datos = self.empleadodao.buscarEmpleado()
 
-        # normalizar a una sola fila
-        if isinstance(datos, list) and datos:
-            row = datos[0]
-        elif isinstance(datos, tuple):
-            row = datos
-        else:
-            row = None
-
-        # limpiar si no hay resultado
-        if not row:
-            self.descripcion_buscar.setText("")
-            self.existencia_buscar.setText("")
-            self.precio_buscar.setText("")
-            self.precio_buscar_2.setText("")
-            return
-
         # asignar campos de forma segura
-        self.descripcion_buscar.setText(str(row[1]))  # apellido
-        self.existencia_buscar.setText(str(row[2]))   # puesto
-        self.precio_buscar.setText(str(row[3]))       # edad
-        self.precio_buscar_2.setText(str(row[4]))     # salario
+        self.descripcion_buscar.setText(str(datos[1]))  # apellido
+        self.existencia_buscar.setText(str(datos[2]))   # puesto
+        self.precio_buscar.setText(str(datos[3]))       # edad
+        self.precio_buscar_2.setText(str(datos[4]))     # salario
     
     def buscar_empleado_eliminar(self):
         self.empleadodao.empleado.id_empleado = self.sku_eliminar.text()
         datos = self.empleadodao.buscarEmpleado()
         
-        # normalizar a una sola fila
-        if isinstance(datos, list) and datos:
-            row = datos[0]
-        elif isinstance(datos, tuple):
-            row = datos
-        else:
-            row = None
-
-        # limpiar si no hay resultado
-        if not row:
-            self.descripcion_eliminar.setText("")
-            self.existencia_eliminar.setText("")
-            self.precio_eliminar.setText("")
-            self.precio_eliminar2.setText("")
-            return
-
-        # asignar campos de forma segura
-        self.descripcion_eliminar.setText(str(row[1]))  # apellido
-        self.existencia_eliminar.setText(str(row[2]))   # puesto
-        self.precio_eliminar.setText(str(row[3]))       # edad
-        self.precio_eliminar2.setText(str(row[4]))      # salario
+        self.descripcion_eliminar.setText(str(datos[1]))  # apellido
+        self.existencia_eliminar.setText(str(datos[2]))   # puesto
+        self.precio_eliminar.setText(str(datos[3]))       # edad
+        self.precio_eliminar2.setText(str(datos[4]))      # salario
     
     def limpiar_empleado(self):
         self.sku_buscar.setText("")
@@ -149,28 +117,11 @@ class Load_ui_empleado(QtWidgets.QMainWindow):
     def buscar_empleado_actualizar(self):
         self.empleadodao.empleado.id_empleado = self.sku_actualizar.text()
         datos = self.empleadodao.buscarEmpleado()
-        
-        # normalizar a una sola fila
-        if isinstance(datos, list) and datos:
-            row = datos[0]
-        elif isinstance(datos, tuple):
-            row = datos
-        else:
-            row = None
 
-        # limpiar si no hay resultado
-        if not row:
-            self.descripcion_actualizar.setText("")
-            self.existencia_actualizar.setText("")
-            self.precio_actualizar.setText("")
-            self.precio_actualizar_2.setText("")
-            return
-
-        # asignar campos de forma segura
-        self.descripcion_actualizar.setText(str(row[1]))  # apellido
-        self.existencia_actualizar.setText(str(row[2]))   # puesto
-        self.precio_actualizar.setText(str(row[3]))       # edad
-        self.precio_actualizar_2.setText(str(row[4]))     # salario
+        self.descripcion_actualizar.setText(str(datos[1]))  # apellido
+        self.precio_actualizar.setText(str(datos[3]))   # puesto
+        self.existencia_actualizar.setText(str(datos[2]))       # edad
+        self.precio_actualizar_2.setText(str(datos[4]))     # salario
         
 # 6.- mover ventana
     def mousePressEvent(self, event):
