@@ -32,15 +32,15 @@ class LoginDialog(QtWidgets.QDialog):
         
     def verificar_login(self):
         usuario = self.editUser.text().strip()
-        contraseña = self.editPass.text().strip()
+        contrasena = self.editPass.text().strip()
         
-        if not usuario or not contraseña:
+        if not usuario or not contrasena:
             QMessageBox.warning(self, "Error", "Por favor, complete todos los campos.")
             self.editUser.setFocus()
             return
 
-        # VERIFICACIÓN CON BASE DE DATOS - SOLO ESTO CAMBIA
-        if self.verificar_en_bd(usuario, contraseña):
+        # VERIFICACIÓN CON BASE DE DATOS
+        if self.verificar_en_bd(usuario, contrasena):
             self.accept()
         else:
             QMessageBox.warning(self, "Error", "Usuario o contraseña incorrectos.")
@@ -48,28 +48,47 @@ class LoginDialog(QtWidgets.QDialog):
             self.editUser.selectAll()
             self.editUser.setFocus()
     
-    def verificar_en_bd(self, usuario, contraseña):
+    def verificar_en_bd(self, usuario, contrasena):
         """Verifica las credenciales en la base de datos"""
+        raw_conn = None
+        cursor = None
         try:
-            # Importa tu conexión existente
-            from modelo.conexionbd import ConexionBD  # Ajusta el import
+            from modelo.conexionbd import ConexionBD
             
-            conn = ConexionBD()  # Usa tu función existente
-            cursor = conn.cursor()
+            conn = ConexionBD()
+            conn.establecerConexionBD()   
+            raw_conn = conn.conexion
+            if raw_conn is None:
+                raise Exception("No se pudo establecer la conexión a la base de datos.")
             
-            # Llamar al procedimiento almacenado
-            cursor.execute("EXEC sp_ValidarUsuario ?, ?", usuario, contraseña)
+            cursor = raw_conn.cursor()
+            
+            # Ejecutar procedimiento almacenado con parámetros
+            try:
+                cursor.execute("EXEC sp_ValidarUsuario ?, ?", (usuario, contrasena))
+            except Exception:
+                cursor.execute("{CALL sp_ValidarUsuario(?, ?)}", (usuario, contrasena))
+            
             result = cursor.fetchone()
-            
-            cursor.close()
-            conn.close()
-            
-            return bool(result[0]) if result else False
+            print(f"Resultado de la verificación: {result}")
+            return bool(result[0]) if result and result[0] is not None else False
             
         except Exception as e:
             print(f"Error al verificar credenciales: {e}")
-            # Fallback a verificación local si hay error de BD
-            return usuario == "admin" and contraseña == "1234"
+            return usuario == "admin" and contrasena == "1234"
+        finally:
+            try:
+                if cursor is not None:
+                    cursor.close()
+            except Exception:
+                pass
+            try:
+                if raw_conn is not None:
+                    raw_conn.close()
+            except Exception:
+                pass
+        
+        
 class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
